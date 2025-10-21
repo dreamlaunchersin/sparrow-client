@@ -1,5 +1,5 @@
 grpcio==1.62.2
-protobuf==4.25.3
+protobuf==4.25.8
 requests==2.31.0
 Jetson.GPIO
 pyserial==3.5
