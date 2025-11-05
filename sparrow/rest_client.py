@@ -441,6 +441,7 @@ def process_and_upload_audio():
 def gather_system_metrics():
     """
     Gathers system metrics including CPU, memory, disk, temperature/humidity, solar, and pressure.
+    Always returns a dict; sensor failures become None values.
     """
     metrics = {
         "auth_key": auth_key,
@@ -453,15 +454,30 @@ def gather_system_metrics():
         "network_received": psutil.net_io_counters().bytes_recv,
         "uptime_seconds": int(time.time() - psutil.boot_time()),
     }
+    
+    try:
+        env = read_env(bus, SENSOR_STATE)
+        metrics["temperature_celsius"]        = env.get("t_c")
+        metrics["humidity_percent"]           = env.get("rh_pct")
+        metrics["bme688_pressure_pa"]         = env.get("p_pa")
+        metrics["bme688_temperature_celsius"] = env.get("t_bme_c")
+        metrics["bme688_humidity_percent"]    = env.get("rh_bme_pct")
+    except Exception as e:
+        logger.error(f"Sensor read failed inside gather_system_metrics(): {e}")
+        metrics.update({
+            "temperature_celsius": None,
+            "humidity_percent": None,
+            "bme688_pressure_pa": None,
+            "bme688_temperature_celsius": None,
+            "bme688_humidity_percent": None,
+        })
 
-    env = read_env(bus, SENSOR_STATE)
-    metrics["temperature_celsius"]        = env["t_c"]
-    metrics["humidity_percent"]           = env["rh_pct"]
-    metrics["bme688_pressure_pa"]         = env["p_pa"]
-    metrics["bme688_temperature_celsius"] = env["t_bme_c"]
-    metrics["bme688_humidity_percent"]    = env["rh_bme_pct"]
+    try:
+        ppv, yields, ved_v, ved_load_p = read_solar_generation()
+    except Exception as e:
+        logger.error(f"VE.Direct read failed: {e}")
+        ppv, yields, ved_v, ved_load_p = None, {}, None, None
 
-    ppv, yields, ved_v, ved_load_p = read_solar_generation()
     metrics["solar_generation_watts"]     = round(ppv, 2) if ppv is not None else None
     metrics["yield_today_wh"]             = yields.get(0) if isinstance(yields, dict) else None
     metrics["yield_yesterday_wh"]         = yields.get(1) if isinstance(yields, dict) else None
@@ -473,16 +489,24 @@ def gather_system_metrics():
 
 def send_system_metrics():
     """Send the latest system metrics to the server, appending to backlog on failure."""
-    send_backlog_metrics()
-    metrics = gather_system_metrics()
-    logger.info(f"Sending system metrics to {system_metrics_url}")
+    logger.info("Metrics job: starting send_system_metrics()")
     try:
+        send_backlog_metrics()  # this already checks connectivity for backlog replay
+    except Exception as e:
+        logger.error(f"Backlog replay failed: {e}")
+
+    try:
+        metrics = gather_system_metrics()
+        logger.info(f"Sending system metrics to {system_metrics_url}")
         response = requests.post(system_metrics_url, json=metrics, timeout=10)
         response.raise_for_status()
         logger.info(f"Successfully sent system metrics: {response.status_code}")
     except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to send system metrics: {e}")
+        logger.error(f"Failed to POST system metrics: {e}")
         append_metric_to_backlog(metrics)
+    except Exception as e:
+        logger.critical(f"send_system_metrics() unexpected error before POST: {e}", exc_info=True)
+
 
 # Scheduling
 executor = ThreadPoolExecutor(max_workers=5)

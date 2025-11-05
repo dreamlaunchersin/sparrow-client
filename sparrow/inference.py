@@ -264,6 +264,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 # CSV for logging detections
 csv_file = '/app/static/data/detections.csv'
+os.makedirs(os.path.dirname(csv_file), exist_ok=True)
 
 def write_to_csv(image_name, detection, confidence, date):
     """Append detection results to CSV."""
