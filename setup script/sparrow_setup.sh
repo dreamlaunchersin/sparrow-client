@@ -82,7 +82,7 @@ AUDIO_BIRDS_MODEL_DIR_NAME="1"
 AUDIO_BIRDS_MODEL_FILENAME_TEMP="MD_AudioBirds_V1.onnx"
 AUDIO_BIRDS_MODEL_FILENAME_FINAL="model.onnx"
 
-REPO_URL="https://github.com/zhmiao/sparrow.git"
+REPO_URL="https://github.com/microsoft/sparrow-client"
 CLONE_DIR=""
 
 ###############################################################################
