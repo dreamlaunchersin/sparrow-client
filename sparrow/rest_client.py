@@ -270,7 +270,7 @@ def upload_image_and_data(image_path, detection_data_list):
                 }
                 logger.info("Sending image data to server: %s",
                     {k: v for k, v in data.items() if k != "auth_key"})
-                response = requests.post(image_server_url, files=files, data=data)
+                response = requests.post(image_server_url, files=files, data=data, timeout=30)
                 response.raise_for_status()
         except requests.exceptions.RequestException as e:
             logger.error(f"Failed to upload {image_name} with detection {detection_data['Detection']}: {e}")

@@ -1,60 +1,70 @@
-<p align="center">
-  <a href="https://dashboard.sparrow-earth.com/">
-    <img src="https://dashboard.sparrow-earth.com/static/images/SPARROW-Blog-Header_1280px-x-720px_V2.png" 
-         alt="SPARROW - AI for Good Wildlife Monitoring" 
-         width="800">
+![image](https://zenodo.org/records/17547596/files/SPARROW-banner.png)
+ 
   </a>
 </p>
 
+<div align="center"> 
+<font size="6"> Accelerating Research and Conservation with Edge AI.</font>
+<br>
+<hr>
+<!-- Badges Section -->
 <p align="center">
-  <em>Edge AI for biodiversity.</em>
-</p>
+  <!-- License -->  
+    <img src="https://pypi-camo.freetls.fastly.net/cd0913ed24368b790668a699719b5562b033448d/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f5079746f72636857696c646c696665">
+  <!-- Docker -->
+    <img src="https://img.shields.io/badge/docker-ready-blue?logo=docker">
+  <!-- Contributions Welcome -->
+  <img src="https://img.shields.io/badge/contributions-welcome-brsvg">
+<br><br>
+</div>
 
-# Project
+# 👋 Welcome to SPARROW
 
 **SPARROW**, developed by **Microsoft's AI for Good Lab**, is an **AI-powered edge computing solution** designed to monitor and protect wildlife in the most remote regions of the world.  
-Solar-powered and equipped with advanced sensors, it collects biodiversity data—from camera traps, acoustic monitors, and other environmental detectors—that are processed using our most advanced PyTorch-based wildlife AI models on low-energy edge GPUs. The resulting critical information is then transmitted via low-Earth orbit satellites directly to the cloud or on-premise infrastructure, allowing researchers to access fresh, actionable insights in real time, no matter where they are.
+Solar-powered and equipped with advanced sensors, it collects biodiversity data—from camera traps, acoustic monitors, and other environmental detectors—that are processed using our most advanced PyTorch-based wildlife AI models on power efficient edge GPUs. The resulting critical information is then transmitted via low-Earth orbit satellites directly to the cloud or on-premise infrastructure, allowing researchers to access fresh, actionable insights in real time, no matter where they are.
 
-## Key Features
+# ✨ Key Features
 
-1. **Autonomous operation**  
+1. **🔋 Autonomous operation**  
    Intelligent power management with solar charging, battery health monitoring, and dynamic component scheduling enables continuous off-grid operation.
 
-2. **Sensing**  
+2. **📷 Sensing**  
    Camera traps, acoustic monitoring, and environmental sensors - SPARROW integrates multi-modal sensing to capture images, sounds, and enviromental metrics for comprehensive biodiversity monitoring.
 
-3. **On-device AI**  
-   Runs optimized PyTorch Wildlife models on low-energy edge GPUs (e.g., Jetson Orin Nano) for real-time image and acoustic detection, species classification, and event recognition.
+3. **🧠 On-device AI**  
+   Runs optimized PyTorch Wildlife models on power efficient edge GPUs (e.g., Jetson Orin Nano) for real-time image and acoustic detection, species classification, and event recognition.
 
-4. **Global connectivity**  
+4. **🌐 Global connectivity**  
    Even in the most remote ecosystems, SPARROW maintains a link to the cloud or on-premise infrastructure through low-Earth-orbit satellites, ensuring that vital conservation data reaches researchers in near real time.
 
-5. **Resilience**  
+5. **🛡️ Resilience**  
    Designed for extreme field conditions - SPARROW safely records data when offline, automatically synchronizing once connectivity is restored to ensure no loss of information.
 
 ---
 
-This repository contains the **SPARROW client**:  
+# This repository contains the **SPARROW client**:  
 Data collection, on-device inference, power management, telemetry, and secure transmission.  
-All services run in **Docker** and are orchestrated with **Docker Compose**.
+
+All services run in **Docker** and are orchestrated with **Docker Compose**. 🐳
 
 ---
 
-# Getting Started
+# 🚀 Getting Started
 
-## 1. Hardware Assembly
+## 🛠️ 1. Hardware Assembly
 
-### Prerequisites
 
-Before you begin, ensure you have all the necessary hardware listed in the Bill of Materials (BOM):  
+### 📋 Prerequisites
+
+🛒 Before you begin, ensure you have all the necessary hardware listed in the Bill of Materials (BOM):  
 [https://link-to-bom/](https://link-to-bom/)
 
-Full build instructions can be found here:  
+🏗️ Full build instructions can be found here:  
 [https://link-to-build/](https://link-to-build/)
 
 ---
 
-## 2. One-click Jetson Setup (Recommended)
+## ⚡ 2. One-click Jetson Setup (Recommended)
 
 The repo contains a Jetson configuration script `sparrow_setup.sh` that installs prerequisites, prepares folders, downloads default Triton models, seeds the DS3231 RTC, configures Wi-Fi hotspot, and launches the SPARROW services.
 
@@ -65,7 +75,7 @@ To create an account and obtain an access key visit:
 **Script:** Download the SPARROW setup script from this repo once the hardware assembly and Jetson flash is complete (detailed instructions can be found in the build instructions).  
 The setup script should be run from `~/Desktop`.
 
-### Usage
+### ▶️ Usage
 
 ```bash
 cd ~/Desktop
@@ -76,16 +86,16 @@ sudo ./sparrow_setup.sh
 
 ## What the Script Does
 
-### 1. Prereqs & Tooling
+### 1️⃣ Prereqs & Tooling
 Installs:
 ```
 docker, docker-compose, git, curl, wget, uuidgen, smbus2
 ```
 
-### 2. Device Identity
+### 2️⃣ Device Identity
 Generates `/etc/unique_id` if missing (single-line UUID).
 
-### 3. Folder Layout (Host)
+### 3️⃣ Folder Layout (Host)
 Creates `~/Desktop/system` with:
 ```
 /system
@@ -124,30 +134,30 @@ Creates `~/Desktop/system` with:
 
 ```
 
-### 4. Models + Configs
+### 4️⃣ Models + Configs
 Downloads three default ONNX models from Zenodo and writes minimal `config.pbtxt` for each Triton repo.
 
-### 8. Access Key
+### 5️⃣ Access Key
 Prompts for the server access key (obtained from the SPARROW dashboard) and writes it to:
 ```
 sparrow/config/access_key.txt
 starlink/config/access_key.txt
 ```
 
-### 9. RTC Seeding (DS3231 over I2C bus 7)
+### 6️⃣ RTC Seeding (DS3231 over I2C bus 7)
 Gets UTC from WorldClock API (fallback: NTP or system UTC) and writes it to the RTC.
 
-### 10. Wi-Fi Hotspot
+### 7️⃣ Wi-Fi Hotspot
 Configures a persistent hotspot via NetworkManager:  
 **SSID:** `CameraTraps`  
 **Password:** `User prompted`
 
-### 11. Docker Build & Launch
+### 8️⃣ Docker Build & Launch
 Builds images with BuildKit (no cache), runs `docker-compose up -d`, and tails logs.
 
 ---
 
-# Software Dependencies
+# 🧩 Software Dependencies
 
 All Python dependencies are inside the containers (no host Python required):
 
@@ -157,7 +167,7 @@ All Python dependencies are inside the containers (no host Python required):
 
 ---
 
-# API References
+# 🔗 API References
 
 The client calls these endpoints on `SERVER_BASE_URL`:
 
@@ -175,7 +185,7 @@ Each request includes `auth_key` and a `unique_id` derived from `/etc/unique_id`
 
 ---
 
-## Contributing
+# 🤝 Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
@@ -191,7 +201,20 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ---
 
-## Trademarks
+# :fountain_pen: Cite us!
+We have recently published a [technical paper on SPARROW](https://arxiv.org/abs/XXXXXXX). Please feel free to cite us!
+
+```
+@misc{lavista2025listening,
+      title={Listening to the Earth in Real Time: SPARROW and the Future of Conservation Technology}, 
+      author={Juan M. Lavista Ferres*, Carl Chalmers*, Bruno Demuro Segundo*, Zhongqi Miao*, Andres Hernandez Celis, Isai Daniel Chacon Silva, Allen Kim, Luana Marotti, Amy Michaels, Daniela Ruiz Lopez, Rahul Dodhia, Inbal Becker-Reshef, Pablo Andrés Arbelaez Escalante, Federico Alves Torres, Meygha Machado, Anthony Cintron Roman},
+      year={2025},
+      eprint={xxxxxxx},
+      archivePrefix={arXiv},
+}
+```
+
+# 🏷️ Trademarks
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
 trademarks or logos is subject to and must follow

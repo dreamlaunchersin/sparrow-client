@@ -7,11 +7,13 @@ updated or missing models, and optionally unloading models no longer listed. Aut
 """
 
 import os
+import sys
 import time
 import requests
 from requests.utils import requote_uri
 import shutil
 import logging
+from utils.sparrow_id import get_hardware_id
 
 # Setup Logging & Folders
 LOG_DIR = "/app/logs"
@@ -44,6 +46,13 @@ try:
 except Exception as e:
     log.error(f"Failed to read auth key from {AUTH_KEY_PATH}: {e}")
     raise SystemExit(1)
+
+try:
+    unit_id = get_hardware_id()
+    log.info(f"Generated unit_id: {unit_id}")
+except Exception:
+    log.critical("Cannot proceed without a valid unit_id.")
+    sys.exit(1)
 
 LOCAL_MODELS_DIR = os.environ.get(
     "LOCAL_MODELS_DIR",
@@ -155,7 +164,8 @@ def robust_download_file(file_url: str, local_file_path: str):
 
 # Server model_update Fetch
 def get_model_update():
-    payload = {"auth_key": AUTH_KEY}
+    payload = {"auth_key": AUTH_KEY, "unit_id": unit_id,
+    }
     try:
         r = requests.post(SERVER_URL, json=payload, timeout=HTTP_TIMEOUT)
         r.raise_for_status()
