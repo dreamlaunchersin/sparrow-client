@@ -62,7 +62,7 @@ All services run in **Docker** and are orchestrated with **Docker Compose**. �
 ### 📋 Prerequisites
 
 <details>
-<summary> 🛒 Before you begin, ensure you have all the necessary hardware listed in the SPARROW Bill of Materials (BOM) below:</summary>
+<summary> 🛒 Before you begin, ensure you have all the necessary hardware listed in the SPARROW Bill of Materials (BOM) below: 👉CLICK TO EXPAND</summary>
 
 The following list represents our **recommended Bill of Materials** for assembling SPARROW devices. Components listed under the **Tested & Recommended** column are those on which the official assembly guide was developed and validated.
 
@@ -349,11 +349,14 @@ When you register into the **SPARROW dashboard**, we store your **email address*
 
 ---
 
-# 📢 Publications; Publicity
+# 📢 Publications & Publicity
 
-Microsoft may **publish materials** based on the **Data in the Dashboard**.  
-If you publish any **academic papers**, **articles**, or **research** based on **Data from the Dashboard**, you must provide **appropriate credit to Microsoft** in accordance with customary academic standards.  
-❌ You may not issue any **press releases**, **public statements**, or other **publicity materials** referencing Microsoft without our **prior written approval**. 
+Microsoft may only use your data for **model improvement with your explicit consent**. You can opt in at any time using the toggle switch in the dashboard (**default setting is OFF**). All data uploaded to the dashboard remains private and will **never be shared** unless you have provided prior consent. Uploaded data will only be analyzed to ensure compliance with the **Terms of Use, and to fix Dashboard bugs and security issues**.
+
+If you publish any **academic papers**, **articles**, or **research** based on **Data from the SPARROW Dashboard**, please **cite our project** in your publication. 
+
+You may not issue any press releases, public statements, or other publicity materials referencing Microsoft without our prior written approval. 
+**Please use the contact form under the "About" section in the SPARROW Dashboard to send your request and we will get back to you right away (this is a very quick process).**
 
 ---
 
