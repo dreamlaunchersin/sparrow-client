@@ -34,5 +34,6 @@ RUN pip install --default-timeout=100 --no-cache-dir -r requirements.txt
 COPY . /app
 
 EXPOSE 25
+EXPOSE 21
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]

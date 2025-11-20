@@ -9,6 +9,7 @@ services:
       - ./sparrow.env
     ports:
       - "25:25" # SMTP server port
+      - "21:21" # FTP server port
     volumes:
       - ./sparrow/config:/app/config
       - ./sparrow/images:/app/images
